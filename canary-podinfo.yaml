@@ -1,0 +1,59 @@
+# From github.com/weaveworks/flagger artifacts/canary/canary.yaml
+apiVersion: flagger.app/v1alpha3
+kind: Canary
+metadata:
+  name: podinfo
+  namespace: test
+spec:
+  provider: istio
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: podinfo
+  # the maximum time in seconds for the canary deployment
+  # to make progress before it is rollback (default 600s)
+  progressDeadlineSeconds: 60
+  service:
+    port: 9898
+    portName: http
+    portDiscovery: false
+    gateways:
+    - mesh
+    trafficPolicy:
+      tls:
+        mode: ISTIO_MUTUAL
+    timeout: 30s
+  canaryAnalysis:
+    # schedule interval (default 60s)
+    interval: 30s
+    # max number of failed metric checks before rollback
+    threshold: 2
+    # max traffic percentage routed to canary
+    # percentage (0-100)
+    maxWeight: 50
+    # canary increment step
+    # percentage (0-100)
+    stepWeight: 20
+    # For the first step, mirror traffic to the canary instead of shifting
+    mirror: true
+    metrics:
+    - name: request-success-rate
+      # minimum req success rate (non 5xx responses)
+      # percentage (0-100)
+      threshold: 99
+      interval: 29s
+    - name: request-duration
+      # maximum req duration P99
+      # milliseconds
+      threshold: 500
+      interval: 29s
+    webhooks:
+      # This optional webhook triggers loadtester to send load to podinfo
+      # Flagger+Istio mirror or shift traffic between primary and canary
+      - name: load-test
+        url: http://flagger-loadtester.test/
+        timeout: 5s
+        metadata:
+          type: cmd
+          cmd: "hey -z 30s -q 10 -c 2 http://podinfo.test:9898/"
+          logCmdOutput: "true"
