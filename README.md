@@ -254,6 +254,11 @@ Status code distribution:
   [200] 200 responses
 ```
 
+The Aspen Mesh dashboard shows flagger-loadtester talking to podinfo-primary:
+
+![am-only-primary](./am-only-primary.png?raw=true)
+
+
 9. Do a Canary deployment.
 
 ```
@@ -306,3 +311,8 @@ or equivalently, this query string:
 ```
 sum by(destination_workload, request_host) (rate(istio_requests_total{reporter="destination", destination_workload_namespace="test", response_code!~"5.*"}[30s]))
 ```
+
+If you look in the Aspen Mesh dashboard while the canary is running you can see
+the traffic split between podinfo-primary and podinfo:
+
+![am-primary-and-canary](./am-primary-and-canary.png?raw=true)
