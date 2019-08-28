@@ -24,7 +24,7 @@ spec:
       containers:
       - name: flagger
         # image: weaveworks/flagger:0.18.2
-        image: quay.io/andrewjjenkins/flagger:mirror
+        image: andrewjjenkins/flagger:mirror
         imagePullPolicy: Always
         ports:
         - name: http
