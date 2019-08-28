@@ -69,11 +69,12 @@ deploy the `podinfo` app at version `2.0.0` to start.
 kubectl apply -f test-podinfo.yaml
 ```
 
-5. Install flagger-loadtester.  This is a little app that Flagger can poke to
-generate load on our test app.  In a real deployment, you may not need this
-because your app may always get real load, or you may have better load
-generators (e.g. from end-to-end tests).  When we install it, it will just sit
-there waiting for Flagger to tell it to generate load.
+5. Install flagger-loadtester.  This is a little app that can either
+continuously generate load, or Flagger can poke to generate load on our test
+app.  In a real deployment, you may not need this because your app may always
+get real load, or you may have better load generators (e.g. from end-to-end
+tests).  When we install it, it will generate continuous load in the background
+to our service.
 
 ```
 kubectl apply -f test-loadtester.yaml
@@ -256,9 +257,9 @@ Status code distribution:
 9. Do a Canary deployment.
 
 ```
-kubectl -n test set image deployment/podinfo podinfod=stefanprodan/podinfo:2.0.1
+kubectl -n test set image deployment/podinfo podinfod=stefanprodan/podinfo:2.1.3
 deployment.extensions/podinfo image updated
 ```
 
 *Note: if you don't get back `image updated` it is because you already set the
-image to 2.0.1 and Flagger will ignore you.  Update the image to 2.0.0*
+image to 2.1.3 and Flagger will ignore you.  Update the image to 2.1.2*
