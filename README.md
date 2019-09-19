@@ -2,9 +2,8 @@
 
 This is all the example code used for the Weaveworks + Aspen Mesh webinar
 [Automating Canary Deployments with Weaveworks Flagger and Aspen
-Mesh](https://go.weave.works/webinar-automating-canary-deployments.html).
-
-![webinar-header](./webinar-header.png?raw=true)
+Mesh](https://go.weave.works/webinar-automating-canary-deployments.html) and
+the Aspen Mesh CNCF webinar [Delivering Progressive Delivery with Service Mesh](https://www.cncf.io/webinars/delivering-progressive-delivery-with-service-mesh/)
 
 [Flagger](https://github.com/weaveworks/flagger) is a Kubernetes operator that
 automates progressive delivery scenarios like canary deployments.  It does this
